@@ -1,7 +1,8 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Day;
+use App\Models\Day;
 
 class DaySeeder extends Seeder
 {

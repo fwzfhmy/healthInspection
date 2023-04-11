@@ -1,11 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\HallController;
+use App\Http\Controllers\InspectionController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\HallController;
-use App\Http\Controllers\GroupController;
 use App\Http\Controllers\TimetableController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,11 +18,12 @@ use App\Http\Controllers\TimetableController;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 Auth::routes();
 
@@ -32,7 +36,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('/students/{student}/edit', 'StudentController@edit')->name('students.edit');
 // Route::put('/students/{student}', 'StudentController@update')->name('students.update');
 // Route::delete('/students/{student}', 'StudentController@destroy')->name('students.destroy');
-Route::resource('students',  StudentController::class);
+Route::resource('students', StudentController::class);
 //Method2
 Route::resource('subjects', SubjectController::class);
 Route::resource('halls', HallController::class);
@@ -45,7 +49,6 @@ Route::resource('groups', GroupController::class);
 // Route::put('/subjects/{subject}', 'SubjectController@update')->name('subjects.update');
 // Route::delete('/subjects/{subject}', 'SubjectController@destroy')->name('subjects.destroy');
 
-
 // Route::get('/halls', 'HallController@index')->name('halls.index');
 // Route::get('/halls/create', 'HallController@create')->name('halls.create');
 // Route::post('/halls', 'HallController@store')->name('halls.store');
@@ -53,10 +56,6 @@ Route::resource('groups', GroupController::class);
 // Route::get('/halls/{hall}/edit', 'HallController@edit')->name('halls.edit');
 // Route::put('/halls/{hall}', 'HallController@update')->name('halls.update');
 // Route::delete('/halls/{hall}', 'HallController@destroy')->name('halls.destroy');
-
-
-
-
 
 // Route::get('/groups', 'GroupController@index')->name('groups.index');
 // Route::get('/groups/create', 'GroupController@create')->name('groups.create');
@@ -66,8 +65,12 @@ Route::resource('groups', GroupController::class);
 // Route::put('/groups/{group}', 'GroupController@update')->name('groups.update');
 // Route::delete('/groups/{group}', 'GroupController@destroy')->name('groups.destroy');
 
-Route::resource('timetables',TimetableController::class);
+Route::resource('timetables', TimetableController::class);
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('inspections', InspectionController::class);
+});
 Route::resource('/days', 'DayController');
 Auth::routes();
+// Route::post('/search-patient', 'PatientController@search')->name('searchPatient');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

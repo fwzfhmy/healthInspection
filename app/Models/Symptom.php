@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
-class Day extends Model
+class Symptom extends Model
 {
-    public $table = 'days';
+    public $table = 'symptoms';
 
     protected $fillable = [
-        'day_name',
+        'symptom_name',
     ];
 }

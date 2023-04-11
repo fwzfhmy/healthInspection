@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Timetable;
-use App\Hall;
-use App\Subject;
-use App\Day;
+use App\Models\Hall;
+use App\Models\Subject;
+use App\Models\Day;
 use Illuminate\Http\Request;
 
 class TimetableController extends Controller
@@ -31,13 +31,12 @@ class TimetableController extends Controller
     public function create()
     {
         $days = Day::pluck('day_name', 'id');
-
         $halls = Hall::pluck('lecture_hall_name', 'id');
-
         $subjects = Subject::pluck('subject_name', 'id', 'subject_code');
-
-        return view('timetables.create', compact('days', 'subjects', 'halls','timetables'));
+    
+        return view('timetables.create', compact('days', 'subjects', 'halls'));
     }
+    
 
     /**
      * Store a newly created resource in storage.

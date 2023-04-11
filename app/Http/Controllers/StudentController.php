@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use DB;
-use Hash; 
+use Hash;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -18,7 +18,7 @@ class StudentController extends Controller
     {
         $students = User::all();
 
-        return view('students.index',compact('students'));
+        return view('students.index', compact('students'));
     }
 
     /**
@@ -40,21 +40,27 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'fullName' => 'required',
             'email' => 'required',
-            'password' => 'required'
+            'address' => 'required',
+            'password' => 'required',
+            'idNo' => 'required',
         ]);
 
         DB::table('users')->insert([
-            'name' => $request->name,
-            'password' => $request->password,
+            'fullName' => $request->fullName,
+            'password' => Hash::make($request->password),
             'email' => $request->email,
+            'address' => $request->address,
+            'idNo' => $request->idNo,
+            'created_at' => DB::raw('now()'),
+            'updated_at' => DB::raw('now()'),
         ]);
-  
+
         // User::create($request->all());
-   
+
         return redirect()->route('students.index')
-                        ->with('success','Student created successfully.');
+            ->with('success', 'Student created successfully.');
     }
 
     /**
@@ -65,7 +71,7 @@ class StudentController extends Controller
      */
     public function show(User $student)
     {
-        return view('students.show',compact('student'));
+        return view('students.show', compact('student'));
     }
 
     /**
@@ -76,7 +82,7 @@ class StudentController extends Controller
      */
     public function edit(User $student)
     {
-        return view('students.edit',compact('student'));
+        return view('students.edit', compact('student'));
     }
 
     /**
@@ -89,21 +95,21 @@ class StudentController extends Controller
     public function update(Request $request, User $student)
     {
         $request->validate([
-            'name' => 'required',
+            'fullName' => 'required',
             'email' => 'required',
             'password' => 'required',
         ]);
 
-        DB::table('users')->where('id',$request->id)->update([
-            'name' => $request->name,
+        DB::table('users')->where('id', $request->id)->update([
+            'fullName' => $request->fullName,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
         ]);
-  
+
         // $student->update($request->all());
-  
+
         return redirect()->route('students.index')
-                        ->with('success','Student updated successfully');
+            ->with('success', 'Student updated successfully');
     }
 
     /**
@@ -115,8 +121,9 @@ class StudentController extends Controller
     public function destroy(User $student)
     {
         $student->delete();
-  
+
         return redirect()->route('students.index')
-                        ->with('success','Student deleted successfully');
+            ->with('success', 'Student deleted successfully');
     }
+
 }

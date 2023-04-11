@@ -14,7 +14,7 @@ class CreateAlterAddTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('age') ->nullable()-> after('name');
+            $table->string('age') ->nullable()-> after('fullName');
         });
 
         Schema::table('subjects', function (Blueprint $table) {
