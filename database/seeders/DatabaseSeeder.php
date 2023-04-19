@@ -1,8 +1,9 @@
 <?php
 
+use Database\Seeders\AdminSeeder;
+use Database\Seeders\DaySeeder;
+use Database\Seeders\SymptomSeeder;
 use Illuminate\Database\Seeder;
-use  Database\Seeders\DaySeeder;
-use  Database\Seeders\SymptomSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UserSeeder::class);
         $this->call(DaySeeder::class);
+        $this->call(AdminSeeder::class);
         $this->call(SymptomSeeder::class);
     }
 }

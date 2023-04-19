@@ -1,6 +1,5 @@
 @extends('layouts.template')
 
 @section('content')
-@include('students.table')
+@include('users.table')
 @endsection
-

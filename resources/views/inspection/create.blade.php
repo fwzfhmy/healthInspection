@@ -29,7 +29,7 @@
                 <option value="">-- Choose User --</option>
                 @foreach ($users as $user)
                 <option value="{{$user->id}}" {{ (isset($inspection['user_id']) && $inspection['user_id']==$id)
-                    ? ' selected' : '' }}>{{$user['fullName']}}</option>
+                    ? ' selected' : '' }}>{{$user['fullName']. " | ". $user['email']." | ". $user['idNo']}}</option>
                 @endforeach
             </select>
         </div>
@@ -43,37 +43,7 @@
     </div>
     @endforeach
 
-    <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6">
-            <select class="form-control" name="subject_id">
-                <option value="">-- Choose Subject --</option>
 
-            </select>
-        </div>
-        <br>
-        <br>
-    </div>
-    <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6">
-            <select class="form-control" name="lecture_hall_id">
-                <option value="">-- Choose Hall --</option>
-
-            </select>
-        </div>
-    </div>
-    <br>
-    <div class="col-xs-6 col-sm-6 col-md-6">
-        <div class="form-group">
-            <strong>Time From:</strong>
-            <input type="text" name="time_from" class="form-control" placeholder="Time From">
-        </div>
-    </div>
-    <div class="col-xs-6 col-sm-6 col-md-6">
-        <div class="form-group">
-            <strong>Time To:</strong>
-            <input type="text" name="time_to" class="form-control" placeholder="Time To">
-        </div>
-    </div>
     <br>
     <br>
     <div class="row">

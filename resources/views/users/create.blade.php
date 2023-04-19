@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Add New Students</h2>
+            <h2>Add New User</h2>
         </div>
 
     </div>
@@ -20,7 +20,7 @@
 </div>
 @endif
 
-<form action="{{ route('students.store') }}" method="POST">
+<form action="{{ route('users.store') }}" method="POST">
     @csrf
 
     <div class="row">
@@ -58,7 +58,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <button type="submit" class="btn btn-primary">Submit</button>
 
-            <a class="btn btn-primary" href="{{ route('students.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
         </div>
     </div>
 

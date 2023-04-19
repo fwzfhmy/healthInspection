@@ -13,12 +13,12 @@ class CreateAlterAddTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('age') ->nullable()-> after('fullName');
-        });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->string('age') ->nullable()-> after('fullName');
+        // });
 
         Schema::table('subjects', function (Blueprint $table) {
-            $table->string('lecturer_name') ->nullable()-> after('subject_name');
+            $table->string('lecturer_name')->nullable()->after('subject_name');
         });
     }
 

@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HallController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\LandingController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TimetableController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,7 @@ Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 Auth::routes();
 
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/home', 'HomeController@index')->name('home');
 //Method1
 // Route::get('/students', 'StudentController@index')->name('students.index');
@@ -36,7 +38,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('/students/{student}/edit', 'StudentController@edit')->name('students.edit');
 // Route::put('/students/{student}', 'StudentController@update')->name('students.update');
 // Route::delete('/students/{student}', 'StudentController@destroy')->name('students.destroy');
-Route::resource('students', StudentController::class);
+// Route::resource('students', StudentController::class);
 //Method2
 Route::resource('subjects', SubjectController::class);
 Route::resource('halls', HallController::class);
@@ -67,8 +69,18 @@ Route::resource('groups', GroupController::class);
 
 Route::resource('timetables', TimetableController::class);
 Route::group(['middleware' => 'auth'], function () {
+    Route::resource('users', UserController::class);
+});
+Route::group(['middleware' => 'auth'], function () {
     Route::resource('inspections', InspectionController::class);
 });
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('reports', ReportController::class)->parameters([
+        'reports' => 'inspection',
+    ]);
+});
+Route::get('/reports/{id}/pdf', [ReportController::class, 'generatePDF'])->name('reports.pdf');
+
 Route::resource('/days', 'DayController');
 Auth::routes();
 // Route::post('/search-patient', 'PatientController@search')->name('searchPatient');

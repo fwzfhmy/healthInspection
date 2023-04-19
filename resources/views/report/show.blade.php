@@ -11,12 +11,16 @@
 <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-6">
         <div class="form-group">
-            <strong>Identification No :</strong>
-            {{ $inspection-> user->email }}
+            <strong>Full Name :</strong>
+            {{ $inspection->user->fullName }}
         </div>
         <div class="form-group">
             <strong>Identification No :</strong>
-            {{ $inspection-> user->fullName }}
+            {{ $inspection->user->idNo }}
+        </div>
+        <div class="form-group">
+            <strong>Email :</strong>
+            {{ $inspection->user->email }}
         </div>
         <div class="form-group">
             <strong>No of Symptoms:</strong>
@@ -41,7 +45,7 @@
         </div>
     </div>
     <div class="pull-right">
-        <a class="btn btn-primary" href="{{ route('inspections.index') }}"> Back</a>
+        <a class="btn btn-primary" href="{{ route('reports.index') }}"> Back</a>
     </div>
 </div>
 @endsection

@@ -1,13 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="jumbotron">
-    <h1 class="display-4">Drug Abuse in Malaysia</h1>
-    <hr class="my-4">
-    <p class="lead">Learn about the latest statistics on drug abuse in Malaysia and the different types of drugs that
-        are commonly abused.</p>
-    <a class="btn btn-primary btn-lg" href="#statistics" role="button">View Statistics</a>
-    <a class="btn btn-secondary btn-lg" href="#drug-types" role="button">View Drug Types</a>
+    <div class="container my-5">
+        <h1 class="display-4">Drug Abuse in Malaysia</h1>
+        <hr class="my-4">
+        <p class="lead">Learn about the latest statistics on drug abuse in Malaysia and the different types of drugs
+            that
+            are commonly abused.</p>
+        <a class="btn btn-primary btn-lg" href="#statistics" role="button">View Statistics</a>
+        <a class="btn btn-secondary btn-lg" href="#drug-types" role="button">View Drug Types</a>
+
+
+    </div>
 </div>
 
 <div class="container my-5" id="statistics">

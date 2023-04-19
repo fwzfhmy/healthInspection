@@ -6,8 +6,9 @@ use App\Models\User;
 use DB;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class StudentController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +17,14 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = User::all();
+        $users = User::all();
 
-        return view('students.index', compact('students'));
+        return view('users.index', compact('users'));
     }
-
+    public function edit(User $user)
+    {
+        return view('users.edit', compact('user'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -28,7 +32,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('students.create');
+        return view('users.create');
     }
 
     /**
@@ -59,8 +63,8 @@ class StudentController extends Controller
 
         // User::create($request->all());
 
-        return redirect()->route('students.index')
-            ->with('success', 'Student created successfully.');
+        return redirect()->route('users.index')
+            ->with('success', 'User created successfully.');
     }
 
     /**
@@ -69,9 +73,9 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(User $student)
+    public function show(User $user)
     {
-        return view('students.show', compact('student'));
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -80,10 +84,6 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $student)
-    {
-        return view('students.edit', compact('student'));
-    }
 
     /**
      * Update the specified resource in storage.
@@ -92,24 +92,43 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $student)
+    public function update(Request $request, User $user)
     {
         $request->validate([
             'fullName' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:6',
+            'dateBirth' => 'required|date',
+            'idNo' => 'required|numeric',
+            'address' => 'required',
+            'imagePath' => 'nullable|image|max:2048',
         ]);
 
-        DB::table('users')->where('id', $request->id)->update([
-            'fullName' => $request->fullName,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $user->fullName = $request->fullName;
+        $user->email = $request->email;
+        $user->dateBirth = $request->dateBirth;
+        $user->idNo = $request->idNo;
+        $user->address = $request->address;
 
-        // $student->update($request->all());
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
 
-        return redirect()->route('students.index')
-            ->with('success', 'Student updated successfully');
+        if ($request->hasFile('imagePath')) {
+            $imagePath = $request->file('imagePath');
+            $filename = time() . '.' . $imagePath->getClientOriginalExtension();
+            $path = $imagePath->storeAs('public/images', $filename);
+            $oldFilename = $user->imagePath;
+            $user->imagePath = $filename;
+            if ($oldFilename) {
+                Storage::delete('public/images/' . $oldFilename);
+            }
+        }
+
+        $user->save();
+
+        return redirect()->route('students.edit', $user->id)
+            ->with('success', 'User updated successfully');
     }
 
     /**
@@ -118,12 +137,12 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $student)
+    public function destroy(User $user)
     {
-        $student->delete();
+        $user->delete();
 
-        return redirect()->route('students.index')
-            ->with('success', 'Student deleted successfully');
+        return redirect()->route('users.index')
+            ->with('success', 'User deleted successfully');
     }
 
 }

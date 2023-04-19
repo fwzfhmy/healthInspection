@@ -28,14 +28,7 @@ class InspectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function create()
-    // {
-    //     $days = Day::pluck('day_name', 'id');
-    //     $halls = Hall::pluck('lecture_hall_name', 'id');
-    //     $subjects = Subject::pluck('subject_name', 'id', 'subject_code');
 
-    //     return view('timetables.create', compact('days', 'subjects', 'halls'));
-    // }
     public function create()
     {
         $users = User::all();
@@ -50,66 +43,33 @@ class InspectionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(Request $request)
-    // {
-    //     Timetable::create([
-    //         'user_id' => auth()->user()->id,
-    //         'day_id' => $request->day_id,
-    //         'subject_id' => $request->subject_id,
-    //         'lecture_hall_id' => $request->lecture_hall_id,
-    //         'time_from' => $request->time_from,
-    //         'time_to' => $request->time_to,
-    //     ]);
 
-    //     return redirect()->route('timetables.index')
-    //                     ->with('success','Timetables created successfully.');
-    // }
     public function store(Request $request)
     {
 
-        $validatedData = $request->validate([
+        $request->validate([
             'user_id' => 'required',
-            // 'symptoms.*' => 'nullable|in:1,2,3,4,5',
-            'symptom1' => 'nullable',
-            'symptom2' => 'nullable',
-            'symptom3' => 'nullable',
-            'symptom4' => 'nullable',
-            'symptom5' => 'nullable',
-            // add more validation rules for symptoms if necessary
         ]);
+
+        $symptomFields = ['symptom1', 'symptom2', 'symptom3', 'symptom4', 'symptom5', 'symptom6', 'symptom7', 'symptom8', 'symptom9', 'symptom10', 'symptom11', 'symptom12', 'symptom13', 'symptom14'];
+
         $inspection = new Inspection();
         $inspection->user_id = $request->input('user_id');
-        $inspection->symptom1 = $request->has('symptom1') ? true : false;
-        $inspection->symptom2 = $request->has('symptom2') ? true : false;
-        $inspection->symptom3 = $request->has('symptom3') ? true : false;
-        $inspection->symptom4 = $request->has('symptom4') ? true : false;
-        $inspection->symptom5 = $request->has('symptom5') ? true : false;
+        $inspection->noOfSymptoms = 0;
+        $inspection->result = 'Negative';
 
-        $count = 0;
-        if ($request->has('symptom1')) {
-            $count++;
+        foreach ($symptomFields as $field) {
+            $inspection->{$field} = $request->has($field) ? true : false;
+            if ($inspection->{$field}) {
+                $inspection->noOfSymptoms++;
+            }
         }
 
-        if ($request->has('symptom2')) {
-            $count++;
+        if ($inspection->noOfSymptoms >= 2) {
+            $inspection->result = 'Positive';
         }
 
-        if ($request->has('symptom3')) {
-            $count++;
-        }
-
-        if ($request->has('symptom4')) {
-            $count++;
-        }
-
-        if ($request->has('symptom5')) {
-            $count++;
-        }
-
-        $inspection->noOfSymptoms = $count;
-        $inspection->result = $count >= 2 ? "Positive" : "Negative";
         $inspection->save();
-// Inspection::create($validatedData);
 
         return redirect()->route('inspections.index')
             ->with('success', 'Inspection created successfully.');
@@ -135,9 +95,10 @@ class InspectionController extends Controller
      */
     public function edit(Inspection $inspection)
     {
-        $users = User::pluck('fullName', 'id');
+        $users = User::get();
+        $symptoms = Symptom::all();
 
-        return view('inspection.edit', compact('users', 'inspection'));
+        return view('inspection.edit', compact('users', 'inspection', 'symptoms'));
 
     }
 
@@ -150,10 +111,88 @@ class InspectionController extends Controller
      */
     public function update(Request $request, Inspection $inspection)
     {
-        $inspection->update($request->all());
+        $validatedData = $request->validate([
+            'user_id' => 'required',
+            // 'symptoms.*' => 'nullable|in:1,2,3,4,5',
+            'symptom1' => 'nullable',
+            'symptom2' => 'nullable',
+            'symptom3' => 'nullable',
+            'symptom4' => 'nullable',
+            'symptom5' => 'nullable',
+            'symptom6' => 'nullable',
+            'symptom7' => 'nullable',
+            'symptom8' => 'nullable',
+            'symptom9' => 'nullable',
+            'symptom10' => 'nullable',
+            'symptom11' => 'nullable',
+            'symptom12' => 'nullable',
+            'symptom13' => 'nullable',
+            'symptom14' => 'nullable',
+            // add more validation rules for symptoms if necessary
+        ]);
+
+        $count = 0;
+        if ($request->has('symptom1')) {
+            $count++;
+        }
+
+        if ($request->has('symptom2')) {
+            $count++;
+        }
+
+        if ($request->has('symptom3')) {
+            $count++;
+        }
+
+        if ($request->has('symptom4')) {
+            $count++;
+        }
+
+        if ($request->has('symptom5')) {
+            $count++;
+        }
+        if ($request->has('symptom6')) {
+            $count++;
+        }if ($request->has('symptom7')) {
+            $count++;
+        }if ($request->has('symptom8')) {
+            $count++;
+        }if ($request->has('symptom9')) {
+            $count++;
+        }if ($request->has('symptom10')) {
+            $count++;
+        }if ($request->has('symptom11')) {
+            $count++;
+        }if ($request->has('symptom12')) {
+            $count++;
+        }if ($request->has('symptom13')) {
+            $count++;
+        }if ($request->has('symptom14')) {
+            $count++;
+        }
+        $inspection->update([
+            'user_id' => $request->input('user_id'),
+            'symptom1' => $request->has('symptom1'),
+            'symptom2' => $request->has('symptom2'),
+            'symptom3' => $request->has('symptom3'),
+            'symptom4' => $request->has('symptom4'),
+            'symptom5' => $request->has('symptom5'),
+            'symptom6' => $request->has('symptom6'),
+            'symptom7' => $request->has('symptom7'),
+            'symptom8' => $request->has('symptom8'),
+            'symptom9' => $request->has('symptom9'),
+            'symptom10' => $request->has('symptom10'),
+            'symptom11' => $request->has('symptom11'),
+            'symptom12' => $request->has('symptom12'),
+            'symptom13' => $request->has('symptom13'),
+            'symptom14' => $request->has('symptom14'),
+            'noOfSymptoms' => $count,
+            'result' => $count >= 2 ? "Positive" : "Negative",
+        ]);
+        // $inspection->update($request->all());
 
         return redirect()->route('inspections.index')
-            ->with('success', 'Timetables updated successfully');
+            ->with('success', 'Inspection updated successfully');
     }
 
     /**
@@ -167,6 +206,6 @@ class InspectionController extends Controller
         $inspection->delete();
 
         return redirect()->route('inspections.index')
-            ->with('success', 'inspection deleted successfully');
+            ->with('success', 'Inspection deleted successfully');
     }
 }
