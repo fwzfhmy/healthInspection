@@ -19,8 +19,8 @@
                     <br><br>
                     <p>
                         Name: {{$user->fullName}} <br>
-                        Matric ID: {{$user->matricId}} <br>
-                        Course: {{$user->course}}
+                        Staff ID: {{$user->matricId}} <br>
+                        Department: {{$user->department}}
                     </p>
                 </div>
             </div>
@@ -34,10 +34,10 @@
                 <div class="card-header">Active Appointment</div>
 
                 <div class="card-body">
-                    <h5>Counselling Session with {{$appointment->counselor->fullName}}</h5>
+                    <h5>Counselling Session</h5>
                     <h6> {{ Carbon\Carbon::parse($appointment->appointmentDateTime)->format('D d F Y - g:i A')}}</h6>
-                    <p>Platform: {{$appointment->method}} <br> Counsellor: {{$appointment->counselor->fullName}}</p>
-                    <a type="button" href="{{route('client.appointments.show',$appointment->id) }}"
+                    <p>Platform: {{$appointment->method}} <br> Client: {{$appointment->client->fullName}}</p>
+                    <a type="button" href="{{route('counselor.appointments.show',$appointment->id) }}"
                         class="btn btn-primary">See More</a>
 
                 </div>

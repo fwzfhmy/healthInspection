@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -15,7 +16,23 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'fullName', 'email', 'address', 'password', 'dateBirth', 'imagePath', 'idNo',
+        'fullName',
+        'email',
+        'course',
+        'password',
+        'phoneNo',
+        'matricId',
+        'address',
+        'dateOfBirth',
+        'nationality',
+        'qualification',
+        'roomLocation',
+        'position',
+        'faculty',
+        'department',
+        'role',
+        'icNo',
+        'imagePath',
     ];
 
     /**
@@ -35,8 +52,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function hasRole($role)
+    protected function role(): Attribute
     {
-        return $this->role == $role;
+        return new Attribute(
+            get:function ($value) {
+                $roles = ["client", "counselor", "admin"];
+                return $roles[$value] ?? null;
+            }
+        );
     }
+
 }

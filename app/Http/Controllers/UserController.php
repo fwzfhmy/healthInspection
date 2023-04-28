@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Auth;
 use DB;
 use Hash;
 use Illuminate\Http\Request;
@@ -23,6 +24,10 @@ class UserController extends Controller
     }
     public function edit(User $user)
     {
+        if (Auth::user()->id !== $user->id) {
+            // Redirect the user to an error page or show a 403 Forbidden error.
+            abort(403, 'Unauthorized action.');
+        }
         return view('users.edit', compact('user'));
     }
     /**
@@ -98,16 +103,16 @@ class UserController extends Controller
             'fullName' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|min:6',
-            'dateBirth' => 'required|date',
-            'idNo' => 'required|numeric',
+            'dateOfBirth' => 'required|date',
+            'icNo' => 'required|numeric',
             'address' => 'required',
             'imagePath' => 'nullable|image|max:2048',
         ]);
 
         $user->fullName = $request->fullName;
         $user->email = $request->email;
-        $user->dateBirth = $request->dateBirth;
-        $user->idNo = $request->idNo;
+        $user->dateOfBirth = $request->dateOfBirth;
+        $user->icNo = $request->icNo;
         $user->address = $request->address;
 
         if ($request->filled('password')) {
@@ -127,7 +132,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('students.edit', $user->id)
+        return redirect()->route('users.edit', $user->id)
             ->with('success', 'User updated successfully');
     }
 

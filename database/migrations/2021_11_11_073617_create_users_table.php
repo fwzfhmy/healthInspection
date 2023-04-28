@@ -15,14 +15,23 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('fullName');
-            $table->string('idNo');
             $table->string('email')->unique();
-            $table->longText('address')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->timestamp('dateBirth')->nullable();
+            $table->string('fullName');
+            $table->string('course')->nullable();
             $table->string('password');
-            $table->string('role')->nullable()->default('Normal');
+            $table->string('phoneNo')->nullable();
+            $table->string('matricId')->nullable();
+            $table->longText('address')->nullable();
+            $table->timestamp('dateOfBirth')->nullable();
+            $table->string('nationality')->nullable();
+            $table->string('qualification')->nullable();
+            $table->string('roomLocation')->nullable();
+            $table->string('position')->nullable();
+            $table->string('faculty')->nullable();
+            $table->string('department')->nullable();
+            $table->string('icNo')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->integer('role')->default(0); // 0 = User; 1 = Counsellor; 2 = Admin;
             $table->string('imagePath')->nullable();
             $table->rememberToken();
             $table->timestamps();
