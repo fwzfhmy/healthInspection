@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
-use App\Models\User;
-use Auth;
-
 class HomeController extends Controller
 {
     /**
@@ -15,6 +11,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('auth');
     }
 
     /**
@@ -22,24 +19,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function clientHome()
+    public function index()
     {
-        $user = User::where('id', Auth::user()->id)->first();
-        $appointment = Appointment::where('clientId', Auth::user()->id)
-            ->whereNotIn('status', [0, 4])
-            ->first();
-        return view('home', ["message" => "I am client role"])->with(['appointment' => $appointment, 'user' => $user]);
-    }
-    public function counselorHome()
-    {
-        $user = User::where('id', Auth::user()->id)->first();
-        $appointment = Appointment::where('counselorId', Auth::user()->id)
-            ->whereNotIn('status', [0, 4])
-            ->first();
-        return view('counselor.home', ["message" => "I am counselor role"])->with(['appointment' => $appointment, 'user' => $user]);
-    }
-    public function adminHome()
-    {
-        return view('admin.home', ["message" => "I am admin role"]);
+        return view('home');
     }
 }

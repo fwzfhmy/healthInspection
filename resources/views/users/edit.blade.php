@@ -65,15 +65,15 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Date of Birth:</strong>
-                <input type="date" name="dateOfBirth"
-                    value="{{  \Carbon\Carbon::parse($user->dateOfBirth)->format('Y-m-d') }}" class="form-control"
+                <input type="date" name="dateBirth"
+                    value="{{  \Carbon\Carbon::parse($user->dateBirth)->format('Y-m-d') }}" class="form-control"
                     placeholder="Date of Birth">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>ID Number:</strong>
-                <input type="text" name="icNo" value="{{ $user->icNo }}" class="form-control" placeholder="ID Number">
+                <input type="text" name="idNo" value="{{ $user->idNo }}" class="form-control" placeholder="ID Number">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
