@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inspection;
+use App\Models\User;
+use Auth;
+
 class HomeController extends Controller
 {
     /**
@@ -21,6 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $userCount = User::count();
+        $healthReportCount = Inspection::count();
+        if ($user->role == "Admin") {
+            return view('dashboard', compact('userCount', 'healthReportCount'));
+        }
         return view('home');
+
     }
 }
